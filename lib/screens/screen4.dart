@@ -44,12 +44,12 @@ class Screen4 extends StatelessWidget {
           ),
           // Logo positioned independently
           Positioned(
-            top: -50, // Adjust this value to move the logo higher or lower
+            top: -50,
             left: 0,
             right: 0,
             child: Center(
               child: Image.asset(
-                "assets/images/logo_cropiq.png",
+                "assets/logos/logo_cropiq.png",
                 width: 500, // Adjust width as needed
                 height: 500, // Adjust height as needed
               ),

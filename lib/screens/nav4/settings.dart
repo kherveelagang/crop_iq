@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import '../login_screen.dart';
 import 'edit_profile.dart';
 
 class SettingsPage extends StatefulWidget {

@@ -1,14 +1,27 @@
+import 'package:crop_iq/providers/crop_provider.dart';
+import 'package:crop_iq/screens/nav1/main_navigation_page.dart';
+import 'package:crop_iq/screens/nav2/my_crops_page.dart';
 import 'package:flutter/material.dart';
 import 'package:crop_iq/screens/login_screen.dart';
 import 'package:crop_iq/screens/screen1.dart';
 import 'package:crop_iq/screens/screen2.dart';
 import 'package:crop_iq/screens/screen3.dart';
 import 'package:crop_iq/screens/screen4.dart';
-import 'package:crop_iq/screens/settings.dart'; // Import settings.dart
+import 'package:crop_iq/screens/nav4/settings.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => CropProvider(), // Provide the CropProvider here
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'CropIQ',
       theme: ThemeData(
         fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -26,7 +39,13 @@ class MyApp extends StatelessWidget {
       home: const OnboardingScreen(),
       // Add the route for settings
       routes: {
-        '/settings': (context) => const SettingsPage(), // Route for Settings
+        'login': (context) => const LoginScreen(),
+        '/main_navigation': (context) => const MainNavigationPage(),
+        '/settings': (context) => const SettingsPage(),
+        '/main': (context) => const MainNavigationPage(),
+        '/my_crops': (context) => const MyCropsPage(),
+        // '/crop_recommendations': (context) =>
+        //     const CropRecommendationPage(),
       },
     );
   }

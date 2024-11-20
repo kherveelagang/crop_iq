@@ -1,4 +1,4 @@
-import 'package:crop_iq/screens/home_page.dart';
+import 'package:crop_iq/screens/nav1/main_navigation_page.dart'; // Import MainNavigationPage
 import 'package:crop_iq/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RegistrationScreen()),
+                          builder: (context) => const RegistrationScreen(),
+                        ),
                       );
                     },
                     child: const Text(
@@ -135,11 +136,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle login logic, then navigate to HomePage
+                    // Navigate to MainNavigationPage instead of HomePage
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HomePage(),
+                        builder: (context) => const MainNavigationPage(),
                       ),
                     );
                   },

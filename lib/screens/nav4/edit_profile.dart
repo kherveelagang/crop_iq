@@ -1,5 +1,5 @@
+import 'package:crop_iq/screens/nav4/settings.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
 
 class ProfileEditPage extends StatelessWidget {
   const ProfileEditPage({super.key});
@@ -87,29 +87,6 @@ class ProfileEditPage extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 3,
-          selectedItemColor: Colors.green,
-          unselectedItemColor: Colors.grey,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.history),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.receipt_long),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: '',
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -124,8 +101,7 @@ class ProfileEditPage extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.pop(
-                    context); // Close the dialog without doing anything
+                Navigator.pop(context);
                 Navigator.pop(
                     context); // Go back to the previous screen (home.dart)
               },
@@ -139,7 +115,7 @@ class ProfileEditPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          const HomePage()), // Navigate to HomePage
+                          const SettingsPage()), // Navigate to HomePage
                   (Route<dynamic> route) => false, // Remove all previous routes
                 );
               },
