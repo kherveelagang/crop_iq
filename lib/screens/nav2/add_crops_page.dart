@@ -1,13 +1,11 @@
-import 'package:crop_iq/screens/nav2/map_picker_page.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart'; // For Google Maps
-import 'dart:io'; // For image handling
-import 'package:image_picker/image_picker.dart'; // For image picking
+import 'package:image_picker/image_picker.dart';
 
 class AddCropPage extends StatefulWidget {
-  const AddCropPage(
-      {super.key,
-      required void Function(Map<String, String> newCrop) onAddCrop});
+  const AddCropPage({super.key, required this.onAddCrop});
+
+  final void Function(Map<String, dynamic> newCrop) onAddCrop;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -16,114 +14,130 @@ class AddCropPage extends StatefulWidget {
 
 class _AddCropPageState extends State<AddCropPage> {
   final TextEditingController cropNameController = TextEditingController();
-  LatLng? selectedLocation; // For storing the location
-  File? cropImage; // For storing the uploaded image
-  bool soilDetected = false;
-  String? soilType;
-  double? soilTemperature;
-  double? soilHumidity;
-  String cropDescription = "";
+  String soilComposition = '';
+  String weatherDescription = '';
+  String? imagePath; // Variable to hold the image path
+
+  void _detectSoilComposition() {
+    Random random = Random();
+
+    // Randomize soil composition values
+    double pH = 6 + random.nextDouble() * 2; // pH range between 6 and 8
+    String texture = ["Loamy", "Sandy", "Clay"][random.nextInt(3)];
+    int fertility = random.nextInt(10) + 1; // Fertility range from 1 to 10
+
+    // Randomize weather data
+    double temperature =
+        15 + random.nextDouble() * 20; // Temperature range from 15 to 35 °C
+    double humidity =
+        40 + random.nextDouble() * 60; // Humidity range from 40% to 100%
+    double rainfall = random.nextDouble() * 300; // Rainfall range in mm
+
+    // Generate description based on soil composition
+    String soilDesc = '';
+    if (pH < 6.5) {
+      soilDesc =
+          'The soil is slightly acidic, which can affect nutrient uptake for certain crops.';
+    } else if (pH > 7.5) {
+      soilDesc =
+          'The soil is alkaline, which may not be ideal for most plants.';
+    } else {
+      soilDesc = 'The soil has a neutral pH, which is ideal for most crops.';
+    }
+
+    setState(() {
+      soilComposition =
+          'pH: ${pH.toStringAsFixed(1)}, $texture, Fertility: $fertility/10\n$soilDesc';
+      weatherDescription = 'Temperature: ${temperature.toStringAsFixed(1)}°C, '
+          'Humidity: ${humidity.toStringAsFixed(1)}%, Rainfall: ${rainfall.toStringAsFixed(1)}mm';
+    });
+  }
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        imagePath = image.path;
+      });
+    }
+  }
+
+  void _saveCrop() {
+    if (cropNameController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please provide a crop name.")),
+      );
+      return;
+    }
+
+    // Save the crop details
+    final newCrop = {
+      'cropName': cropNameController.text,
+      'soilComposition': soilComposition,
+      'weatherDescription': weatherDescription,
+      'imagePath': imagePath,
+      'date': DateTime.now().toString().split(' ')[0],
+    };
+
+    widget.onAddCrop(newCrop);
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Crop")),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: AppBar(
+        title: const Text('Add Crop'),
+        backgroundColor: Colors.green,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
           children: [
             TextField(
               controller: cropNameController,
-              decoration: const InputDecoration(labelText: "Crop Name"),
+              decoration: const InputDecoration(
+                labelText: 'Crop Name',
+                border: OutlineInputBorder(),
+              ),
             ),
-            const SizedBox(height: 10),
-
-            // Google Maps Picker Button
+            const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () async {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const MapPickerPage()),
-                );
-                if (result != null && result is LatLng) {
-                  setState(() {
-                    selectedLocation = result;
-                  });
-                }
-              },
-              child: const Text("Select Location"),
+              onPressed: _detectSoilComposition,
+              child: const Text('Detect Soil Composition & Weather'),
             ),
-            if (selectedLocation != null)
+            const SizedBox(height: 16),
+            if (soilComposition.isNotEmpty) ...[
               Text(
-                  "Selected Location: ${selectedLocation!.latitude}, ${selectedLocation!.longitude}"),
-
-            const SizedBox(height: 10),
-
-            // Image Picker
-            ElevatedButton(
-              onPressed: () async {
-                final pickedFile =
-                    await ImagePicker().pickImage(source: ImageSource.gallery);
-                if (pickedFile != null) {
-                  setState(() {
-                    cropImage = File(pickedFile.path);
-                  });
-                }
-              },
-              child: const Text("Upload Image"),
-            ),
-            if (cropImage != null) Image.file(cropImage!, height: 150),
-
-            const SizedBox(height: 10),
-
-            // Detect Soil Composition Button
-            ElevatedButton(
-              onPressed: () {
-                // Simulate soil composition data
-                setState(() {
-                  // Dummy values for soil detection
-                  soilType = ["Loamy", "Sandy", "Clayey"]
-                      .elementAt(DateTime.now().second % 3);
-                  soilTemperature =
-                      25.0 + (DateTime.now().second % 10); // Random 25-34°C
-                  soilHumidity =
-                      50.0 + (DateTime.now().millisecond % 50); // Random 50-99%
-                  soilDetected = true;
-
-                  // Generate a crop description based on dummy data
-                  cropDescription = soilType == "Loamy"
-                      ? "This soil is rich in nutrients and holds moisture well. Ideal for vegetables and grains."
-                      : soilType == "Sandy"
-                          ? "This soil drains quickly and is suitable for crops like watermelons, peanuts, and carrots."
-                          : "This soil retains water and nutrients. Suitable for rice and other water-tolerant crops.";
-                });
-              },
-              child: const Text("Detect Soil Composition"),
-            ),
-
-            // Display Soil Data
-            if (soilDetected) ...[
-              Text("Soil Type: $soilType"),
-              Text("Soil Temperature: $soilTemperature°C"),
-              Text("Soil Humidity: $soilHumidity%"),
-              const SizedBox(height: 10),
-              Text("Crop Description: $cropDescription"),
+                'Soil Composition:\n$soilComposition',
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Weather Information:\n$weatherDescription',
+                style: const TextStyle(fontSize: 16),
+              ),
             ],
-
-            const SizedBox(height: 20),
-
-            // Get Crop Recommendation Button
+            const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/recommendationPage', arguments: {
-                  'soilType': soilType,
-                  'temperature': soilTemperature,
-                  'humidity': soilHumidity
-                });
-              },
-              child: const Text("Get Crop Recommendation"),
+              onPressed: _pickImage,
+              child: const Text('Upload Image'),
+            ),
+            if (imagePath != null) ...[
+              const SizedBox(height: 16),
+              Text(
+                'Image Selected: $imagePath',
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _saveCrop,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              child: const Text('Save Crop'),
             ),
           ],
         ),

@@ -16,7 +16,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => CropProvider(), // Provide the CropProvider here
+          create: (_) => CropProvider(),
         ),
       ],
       child: const MyApp(),

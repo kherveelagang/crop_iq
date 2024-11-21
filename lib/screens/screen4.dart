@@ -17,8 +17,7 @@ class Screen4 extends StatelessWidget {
             child: Image.asset(
               "assets/images/bg.jpg",
               fit: BoxFit.cover,
-              height:
-                  200, // Adjust the height as needed for the background image
+              height: 200,
             ),
           ),
           Positioned(
@@ -50,8 +49,8 @@ class Screen4 extends StatelessWidget {
             child: Center(
               child: Image.asset(
                 "assets/logos/logo_cropiq.png",
-                width: 500, // Adjust width as needed
-                height: 500, // Adjust height as needed
+                width: 500,
+                height: 500,
               ),
             ),
           ),
@@ -61,8 +60,7 @@ class Screen4 extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
-                mainAxisSize: MainAxisSize
-                    .min, // Prevents the column from taking full screen height
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(height: 50),
                   Text(

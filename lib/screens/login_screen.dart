@@ -12,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isRememberMeChecked = false;
   bool _isPasswordVisible = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigate to MainNavigationPage instead of HomePage
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -172,29 +172,93 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    // Handle "Continue with Google" logic
-                  },
-                  icon: Image.asset(
-                    'assets/icons/google_icon.png',
-                    height: 20,
-                  ),
-                  label: const Text(
-                    'Continue with Google',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
+              // Google Login Button
+              if (_isLoading)
+                const Center(
+                  child: CircularProgressIndicator(),
+                )
+              else
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () async {
+                      setState(() {
+                        _isLoading = true;
+                      });
+
+                      // Simulate a login delay
+                      await Future.delayed(const Duration(seconds: 2));
+
+                      // After loading, navigate to the main page (simulating successful login)
+                      Navigator.pushReplacement(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainNavigationPage(),
+                        ),
+                      );
+                    },
+                    icon: Image.asset(
+                      'assets/icons/google_icon.png',
+                      height: 20,
+                    ),
+                    label: const Text(
+                      'Continue with Google',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      side: const BorderSide(color: Colors.grey),
                     ),
                   ),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    side: const BorderSide(color: Colors.grey),
+                ),
+              const SizedBox(height: 20),
+              // Facebook Login Button
+              if (_isLoading)
+                const Center(
+                  child: CircularProgressIndicator(),
+                )
+              else
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () async {
+                      setState(() {
+                        _isLoading = true; // Show the loader
+                      });
+
+                      // Simulate a login delay
+                      await Future.delayed(const Duration(seconds: 2));
+
+                      // After loading, navigate to the main page (simulating successful login)
+                      Navigator.pushReplacement(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainNavigationPage(),
+                        ),
+                      );
+                    },
+                    icon: Image.asset(
+                      'assets/icons/fb_icon.png',
+                      height: 20,
+                    ),
+                    label: const Text(
+                      'Continue with Facebook',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      side: const BorderSide(color: Colors.grey),
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

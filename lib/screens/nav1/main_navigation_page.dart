@@ -1,6 +1,7 @@
 import 'package:crop_iq/screens/nav1/home_page.dart';
 import 'package:crop_iq/screens/nav2/my_crops_page.dart';
 import 'package:crop_iq/screens/nav4/settings.dart';
+import 'package:crop_iq/screens/nav3/crop_recommendation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
@@ -11,11 +12,12 @@ class MainNavigationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final PersistentTabController controller = PersistentTabController();
 
-    // Define your navigation items
+    // Define navigation items
     List<Widget> buildScreens() {
       return [
         const HomePage(),
         const MyCropsPage(),
+        const CropRecommendationPage(),
         const SettingsPage(),
       ];
     }
@@ -35,6 +37,12 @@ class MainNavigationPage extends StatelessWidget {
           inactiveColorPrimary: Colors.grey,
         ),
         PersistentBottomNavBarItem(
+          icon: const Icon(Icons.recommend),
+          title: ("Recommendations"),
+          activeColorPrimary: Colors.green,
+          inactiveColorPrimary: Colors.grey,
+        ),
+        PersistentBottomNavBarItem(
           icon: const Icon(Icons.settings),
           title: ("Settings"),
           activeColorPrimary: Colors.green,
@@ -48,7 +56,7 @@ class MainNavigationPage extends StatelessWidget {
       controller: controller,
       screens: buildScreens(),
       items: navBarsItems(),
-      navBarStyle: NavBarStyle.style1, // Style of Nav Bar
+      navBarStyle: NavBarStyle.style1,
     );
   }
 }

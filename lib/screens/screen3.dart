@@ -12,14 +12,13 @@ class Screen3 extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-                height: 50), // Adds space between the top and content
+            const SizedBox(height: 50),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
                   "assets/images/yield_prediction.png",
-                  height: 200, // Adjust the size as needed
+                  height: 200,
                 ),
                 const SizedBox(height: 30),
                 const Text(
