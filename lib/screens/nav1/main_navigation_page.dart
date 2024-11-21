@@ -17,7 +17,9 @@ class MainNavigationPage extends StatelessWidget {
       return [
         const HomePage(),
         const MyCropsPage(),
-        const CropRecommendationPage(),
+        const CropRecommendationPage(
+          crops: [],
+        ),
         const SettingsPage(),
       ];
     }

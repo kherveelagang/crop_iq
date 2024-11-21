@@ -170,13 +170,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Handle FAB action
-        },
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // Handle FAB action
+      //   },
+      //   backgroundColor: Colors.green,
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }

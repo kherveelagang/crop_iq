@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:crop_iq/screens/nav3/crop_recommendation_page.dart';
 import 'package:flutter/material.dart';
 import 'add_crops_page.dart';
 
@@ -14,7 +15,6 @@ class _MyCropsPageState extends State<MyCropsPage> {
   final List<Map<String, dynamic>> crops = [];
 
   void _navigateToAddCropPage() async {
-    // Navigate to AddCropPage and wait for new crop data
     final Map<String, dynamic>? newCrop = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -33,6 +33,24 @@ class _MyCropsPageState extends State<MyCropsPage> {
         crops.add(newCrop);
       });
     }
+  }
+
+  void _navigateToRecommendationsPage() {
+    if (crops.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Add crops first to get recommendations."),
+        ),
+      );
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CropRecommendationPage(crops: crops),
+      ),
+    );
   }
 
   @override
@@ -74,10 +92,35 @@ class _MyCropsPageState extends State<MyCropsPage> {
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _navigateToAddCropPage,
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
+      floatingActionButton: Stack(
+        children: [
+          Positioned(
+            bottom: 80,
+            right: 16,
+            child: FloatingActionButton(
+              onPressed: _navigateToAddCropPage,
+              backgroundColor: Colors.green,
+              child: const Icon(Icons.add),
+            ),
+          ),
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: ElevatedButton(
+              onPressed: _navigateToRecommendationsPage,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                "Get Recommended Crops",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
