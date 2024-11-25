@@ -37,15 +37,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const OnboardingScreen(),
-      // Add the route for settings
       routes: {
         'login': (context) => const LoginScreen(),
         '/main_navigation': (context) => const MainNavigationPage(),
         '/settings': (context) => const SettingsPage(),
         '/main': (context) => const MainNavigationPage(),
         '/my_crops': (context) => const MyCropsPage(),
-        // '/crop_recommendations': (context) =>
-        //     const CropRecommendationPage(),
       },
     );
   }

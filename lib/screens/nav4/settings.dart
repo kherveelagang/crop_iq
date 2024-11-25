@@ -17,7 +17,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-        leading: const Icon(Icons.arrow_back),
+        // leading: const Icon(Icons.arrow_back),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
