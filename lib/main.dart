@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         '/main_navigation': (context) => const MainNavigationPage(),
         '/settings': (context) => const SettingsPage(),
         '/main': (context) => const MainNavigationPage(),
-        '/my_crops': (context) => const MyCropsPage(),
+        '/my_crops': (context) => const MyFarmsPage(),
       },
     );
   }

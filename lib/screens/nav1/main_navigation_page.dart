@@ -1,7 +1,6 @@
 import 'package:crop_iq/screens/nav1/home_page.dart';
 import 'package:crop_iq/screens/nav2/my_crops_page.dart';
 import 'package:crop_iq/screens/nav4/settings.dart';
-// import 'package:crop_iq/screens/nav3/crop_recommendation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
@@ -16,10 +15,7 @@ class MainNavigationPage extends StatelessWidget {
     List<Widget> buildScreens() {
       return [
         const HomePage(),
-        const MyCropsPage(),
-        // const CropRecommendationPage(
-        //   crops: [],
-        // ),
+        const MyFarmsPage(),
         const SettingsPage(),
       ];
     }
@@ -27,28 +23,34 @@ class MainNavigationPage extends StatelessWidget {
     List<PersistentBottomNavBarItem> navBarsItems() {
       return [
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.home),
-          title: ("Home"),
+          icon: const Padding(
+            padding: EdgeInsets.only(bottom: 5.0),
+            child: Icon(Icons.home, size: 24),
+          ),
+          title: "Home",
           activeColorPrimary: Colors.green,
           inactiveColorPrimary: Colors.grey,
+          textStyle: const TextStyle(fontSize: 12),
         ),
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.local_florist),
-          title: ("Crops"),
+          icon: const Padding(
+            padding: EdgeInsets.only(bottom: 5.0),
+            child: Icon(Icons.agriculture_rounded, size: 24),
+          ),
+          title: "Farm",
           activeColorPrimary: Colors.green,
           inactiveColorPrimary: Colors.grey,
+          textStyle: const TextStyle(fontSize: 12),
         ),
-        // PersistentBottomNavBarItem(
-        //   icon: const Icon(Icons.recommend),
-        //   title: ("Recommendations"),
-        //   activeColorPrimary: Colors.green,
-        //   inactiveColorPrimary: Colors.grey,
-        // ),
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.settings),
-          title: ("Settings"),
+          icon: const Padding(
+            padding: EdgeInsets.only(bottom: 5.0),
+            child: Icon(Icons.settings, size: 24),
+          ),
+          title: "Settings",
           activeColorPrimary: Colors.green,
           inactiveColorPrimary: Colors.grey,
+          textStyle: const TextStyle(fontSize: 12),
         ),
       ];
     }
@@ -58,7 +60,8 @@ class MainNavigationPage extends StatelessWidget {
       controller: controller,
       screens: buildScreens(),
       items: navBarsItems(),
-      navBarStyle: NavBarStyle.style1,
+      navBarHeight: 65, // Slightly increase height for better spacing
+      navBarStyle: NavBarStyle.style6, // Keeps text and icons aligned cleanly
     );
   }
 }
